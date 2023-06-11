@@ -1,0 +1,12 @@
+[
+  {
+    "file": "host",
+    "prefix": "/host",
+    "routername": "host"
+  },
+  {
+    "file": "translate",
+    "prefix": "/translate",
+    "routername": "translate"
+  }
+]

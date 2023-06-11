@@ -1,32 +1,40 @@
-from flask import Flask, jsonify, redirect, url_for
+import json, importlib
+import importlib.util
 
-from api.route.host import host
-from api.route.translate import translate
+from fastapi import FastAPI
+from fastapi.responses import JSONResponse, RedirectResponse
 
-app = Flask(__name__)
-app.register_blueprint(host, url_prefix='/host/')
-app.register_blueprint(translate, url_prefix='/translate/')
+from api.route.translate import router
+from api.route.host import router
 
-
-@app.route('/')
-def index():
-    return redirect(url_for('ping'))
+app = FastAPI()
 
 
-@app.route('/ping/')
-def ping():
-    response = {
-        "response": "I am alive!"
-    }
-    return jsonify(response)
+@app.get('/')
+async def index():
+    response = RedirectResponse(url='/ping')
+    return response
 
 
-@app.route("/urls/")
-def urls():
-    print(app.url_map)
-    return jsonify(app.url_map)
-    # todo: fix this
+@app.get('/ping/')
+async def ping():
+    response = {"response": "I am alive!"}
+    return JSONResponse(content=response)
 
+
+@app.get('/urls/')
+async def urls():
+    return JSONResponse(content=app.openapi())
+
+with open("api/route/routes.json") as f:
+    routes = json.load(f)
+
+for route in routes:
+    importlib.util.spec_from_file_location(route["file"], f"api/route/{route['file']}.py")
+    module = importlib.import_module(f"api.route.{route['file']}")
+    app.include_router(module.router, prefix=route["prefix"])
 
 if __name__ == '__main__':
-    app.run()
+    import uvicorn
+
+    uvicorn.run(app, host='0.0.0.0', port=8000)

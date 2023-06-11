@@ -2,19 +2,22 @@ import os
 import platform
 import socket
 
-from flask import Blueprint, jsonify, redirect, url_for
+# from flask import Blueprint, jsonify, redirect, url_for
+from fastapi import APIRouter, Response
+from fastapi.responses import JSONResponse, RedirectResponse
 import psutil
 
-host = Blueprint("host", __name__)
+router = APIRouter()
 
 
-@host.route("/")
-def index():
-    return redirect(url_for("host.info"))
+@router.get("/")
+async def index():
+    response = RedirectResponse(url="/host/info")
+    return response
 
 
-@host.route("/info/")
-def hostinfo():
+@router.get("/info/")
+async def hostinfo():
     response = {
         "os": platform.system(),
         "hostname": socket.gethostname(),
@@ -22,4 +25,4 @@ def hostinfo():
         "cpu_usage": psutil.cpu_percent(),
         "memory_usage": psutil.virtual_memory().percent,
     }
-    return jsonify(response)
+    return JSONResponse(content=response)

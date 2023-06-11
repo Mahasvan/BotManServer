@@ -1,8 +1,8 @@
-from flask import Blueprint, jsonify, redirect, url_for, request
-
+from fastapi import APIRouter, Response, Request, HTTPException
+from fastapi.responses import JSONResponse, RedirectResponse
 import googletrans
 
-translate = Blueprint("translate", __name__)
+router = APIRouter()
 
 translator = googletrans.Translator()
 lang_dict = googletrans.LANGUAGES
@@ -10,46 +10,39 @@ lang_code_dict = googletrans.LANGCODES
 lang_list = list(googletrans.LANGUAGES.keys())
 
 
-@translate.route("/", methods=["POST"])
+@router.post("/")
 def index():
-    return redirect(url_for("translate.translate_text"))
+    response = RedirectResponse(url="/translate")
+    return response
 
 
-@translate.route("/translate/", methods=["POST"])
-def translate_text():
-    """
-    :param text: the text to translate
-    :param src: source language, use "auto" for auto-detection
-    :param dest: destination language, use "en" for English
-    :return:
-    """
-    text = request.get_json().get("text")
-    src = request.get_json().get("src")
-    dest = request.get_json().get("dest")
+@router.post("/translate/")
+async def translate_text(request: Request):
+    data = await request.json()
+    text = data.get("text")
+    src = data.get("src")
+    dest = data.get("dest")
 
     if src != "auto" and src not in lang_list:
-        return jsonify({"response": "Invalid source language"}), 400
+        raise HTTPException(status_code=400, detail="Invalid source language")
     if dest not in lang_list and dest != "en":
-        return jsonify({"response": "Invalid destination language"}), 400
+        raise HTTPException(status_code=400, detail="Invalid destination language")
 
     response = translator.translate(text, src=src, dest=dest)
-    return jsonify({"response": response.text})
+    return JSONResponse(content={"response": response.text})
 
 
-@translate.route("/languages/", methods=["GET"])
+@router.get("/languages/")
 def languages():
-    return jsonify({"response": lang_dict})
+    return JSONResponse(content={"response": lang_dict})
 
 
-@translate.route("/detect/", methods=["POST"])
-def detect():
-    """
-    :param text: the text to detect
-    :return:
-    """
-    text = request.get_json().get("text")
+@router.post("/detect/")
+async def detect(request: Request):
+    data = await request.json()
+    text = data.get("text")
     if not text:
-        return jsonify({"response": "No text provided"}), 400
+        raise HTTPException(status_code=400, detail="No text provided")
 
     result = translator.detect(text)
     lang_name = result.lang
@@ -70,18 +63,14 @@ def detect():
             "confidence": lang_confidence
         }
     }
-    return jsonify(response)
+    return JSONResponse(content=response)
 
 
-@translate.route("/pronounce/", methods=["POST"])
-def pronounce():
-    """
-    :param text: the text to pronounce
-    :param lang: the language to pronounce in
-    :return:
-    """
-    text = request.get_json().get("text")
-    lang = request.get_json().get("lang")
+@router.post("/pronounce/")
+async def pronounce(request: Request):
+    data = await request.json()
+    text = data.get("text")
+    lang = data.get("lang")
 
     if not lang:
         tempresult = translator.detect(text)
@@ -90,9 +79,9 @@ def pronounce():
             lang = tempresult.lang[0]
 
     if not text:
-        return jsonify({"response": "No text provided"}), 400
+        raise HTTPException(status_code=400, detail="No text provided")
     if lang not in lang_list:
-        return jsonify({"response": "Invalid language"}), 400
+        raise HTTPException(status_code=400, detail="Invalid language")
 
     result = translator.translate(text, src=lang, dest=lang)
     response = {
@@ -103,4 +92,4 @@ def pronounce():
             "language": lang_dict.get(lang)
         }
     }
-    return jsonify(response)
+    return JSONResponse(content=response)
