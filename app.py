@@ -1,11 +1,8 @@
-import json, importlib
+import json
 import importlib.util
 
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse, RedirectResponse
-
-from api.route.translate import router
-from api.route.host import router
 
 app = FastAPI()
 
