@@ -27,9 +27,9 @@ with open("api/route/routes.json") as f:
     routes = json.load(f)
 
 for route in routes:
-    importlib.util.spec_from_file_location(route["file"], f"api/route/{route['file']}.py")
-    module = importlib.import_module(f"api.route.{route['file']}")
-    app.include_router(module.router, prefix=route["prefix"])
+    importlib.util.spec_from_file_location(route, f"api/route/{route}.py")
+    module = importlib.import_module(f"api.route.{route}")
+    app.include_router(module.router, prefix=module.prefix)
 
 if __name__ == '__main__':
     import uvicorn

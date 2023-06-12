@@ -1,10 +1,5 @@
 [
-  {
-    "file": "host",
-    "prefix": "/host"
-  },
-  {
-    "file": "translate",
-    "prefix": "/translate"
-  }
+  "host",
+  "translate",
+  "currency"
 ]

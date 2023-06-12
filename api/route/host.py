@@ -8,11 +8,12 @@ from fastapi.responses import JSONResponse, RedirectResponse
 import psutil
 
 router = APIRouter()
+prefix = "/host"
 
 
 @router.get("/")
 async def index():
-    response = RedirectResponse(url="/host/info")
+    response = RedirectResponse(url=f"{prefix}/info")
     return response
 
 

@@ -3,6 +3,7 @@ from fastapi.responses import JSONResponse, RedirectResponse
 import googletrans
 
 router = APIRouter()
+prefix = "/translate"
 
 translator = googletrans.Translator()
 lang_dict = googletrans.LANGUAGES
@@ -12,7 +13,7 @@ lang_list = list(googletrans.LANGUAGES.keys())
 
 @router.post("/")
 def index():
-    response = RedirectResponse(url="/translate")
+    response = RedirectResponse(url=prefix)
     return response
 
 
