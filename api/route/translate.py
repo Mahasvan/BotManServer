@@ -25,12 +25,24 @@ async def translate_text(request: Request):
     dest = data.get("dest")
 
     if src != "auto" and src not in lang_list:
-        raise HTTPException(status_code=400, detail="Invalid source language")
+        response = {
+            "response": "Invalid source language"
+        }
+        return JSONResponse(response, 400)
     if dest not in lang_list and dest != "en":
-        raise HTTPException(status_code=400, detail="Invalid destination language")
+        response = {
+            "response": "Invalid destination language"
+        }
+        return JSONResponse(response, 400)
 
     response = translator.translate(text, src=src, dest=dest)
-    return JSONResponse(content={"response": response.text})
+    return JSONResponse(content={"response": {
+                "text": response.text,
+                "src": response.src,
+                "dest": response.dest,
+            }
+        }
+    )
 
 
 @router.get("/languages/")
