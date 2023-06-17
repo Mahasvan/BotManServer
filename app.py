@@ -23,13 +23,14 @@ async def ping():
 async def urls():
     return JSONResponse(content=app.openapi())
 
+
 with open("api/route/routes.json") as f:
     routes = json.load(f)
 
 for route in routes:
     importlib.util.spec_from_file_location(route, f"api/route/{route}.py")
     module = importlib.import_module(f"api.route.{route}")
-    app.include_router(module.router, prefix=module.prefix)
+    module.setup(app)
 
 if __name__ == '__main__':
     import uvicorn
