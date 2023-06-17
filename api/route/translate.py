@@ -89,7 +89,7 @@ async def pronounce(request: Request):
     lang = data.get("lang")
 
     if not lang:
-        tempresult = translator.detect(text)
+        tempresult = await translator.detect(text)
         lang = tempresult.lang
         if isinstance(tempresult.lang, list):
             lang = tempresult.lang[0]
@@ -99,7 +99,7 @@ async def pronounce(request: Request):
     if lang not in lang_list:
         raise HTTPException(status_code=400, detail="Invalid language")
 
-    result = translator.translate(text, src=lang, dest=lang)
+    result = await translator.translate(text, src=lang, dest=lang)
     response = {
         "response": {
             "text": text,
