@@ -38,7 +38,7 @@ async def translate_text(request: Request):
         }
         return PrettyJSONResponse(response, 400)
 
-    response = translator.translate(text, src=src, dest=dest)
+    response = await translator.translate(text, src=src, dest=dest)
     return PrettyJSONResponse(content={"response": {
         "text": response.text,
         "src": response.src,
@@ -60,7 +60,7 @@ async def detect(request: Request):
     if not text:
         raise HTTPException(status_code=400, detail="No text provided")
 
-    result = translator.detect(text)
+    result = await translator.detect(text)
     lang_name = result.lang
     lang_confidence = result.confidence * 100
     print(lang_confidence)
