@@ -5,6 +5,7 @@ from fastapi import APIRouter
 from fastapi.responses import JSONResponse, RedirectResponse
 
 from api.service import internet
+from api.service.pretty_response import PrettyJSONResponse
 
 router = APIRouter()
 prefix = "/currency"
@@ -21,7 +22,10 @@ async def update_rates():
     rates = await internet.get_json(f"https://free.currconv.com/api/v7/currencies?apiKey={currency_api_key}")
 
 
-loop = asyncio.get_running_loop()
+try:
+    loop = asyncio.get_running_loop()
+except RuntimeError:
+    loop = asyncio.new_event_loop()
 loop.create_task(update_rates())
 
 if rates.get("status") == 400:
@@ -37,7 +41,7 @@ async def index():
 
 @router.get("/rates/")
 async def exchange_rates():
-    return JSONResponse({"response": rates})
+    return PrettyJSONResponse({"response": rates})
 
 
 @router.get("/convert/")
@@ -48,7 +52,7 @@ async def convert(currency_from: str, currency_to: str, amount: float):
         response = {
             "response": "Could not fetch results. Please check the currency codes."
         }
-        return JSONResponse(response, 400)
+        return PrettyJSONResponse(response, 400)
     else:
         try:
             from_currency, to_currency = [x.upper() for x in list(result.keys())[0].split("_")]
@@ -59,13 +63,17 @@ async def convert(currency_from: str, currency_to: str, amount: float):
                     "error": "could not retrieve exchange rates"
                 }
             }
-            return JSONResponse(response, 500)
+            return PrettyJSONResponse(response, 500)
         multiplier = list(result.values())[0]
         response = {
             "response": {
                 "from": from_currency,
                 "to": to_currency,
-                "amount": amount*multiplier
+                "amount": amount * multiplier
             }
         }
-        return JSONResponse(response)
+        return PrettyJSONResponse(response)
+
+
+def setup(app):
+    app.include_router(router, prefix=prefix)

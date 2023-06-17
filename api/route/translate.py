@@ -2,6 +2,9 @@ from fastapi import APIRouter, Response, Request, HTTPException
 from fastapi.responses import JSONResponse, RedirectResponse
 import googletrans
 
+from api.service.pretty_response import PrettyJSONResponse
+
+
 router = APIRouter()
 prefix = "/translate"
 
@@ -28,26 +31,26 @@ async def translate_text(request: Request):
         response = {
             "response": "Invalid source language"
         }
-        return JSONResponse(response, 400)
+        return PrettyJSONResponse(response, 400)
     if dest not in lang_list and dest != "en":
         response = {
             "response": "Invalid destination language"
         }
-        return JSONResponse(response, 400)
+        return PrettyJSONResponse(response, 400)
 
     response = translator.translate(text, src=src, dest=dest)
-    return JSONResponse(content={"response": {
-                "text": response.text,
-                "src": response.src,
-                "dest": response.dest,
-            }
-        }
+    return PrettyJSONResponse(content={"response": {
+        "text": response.text,
+        "src": response.src,
+        "dest": response.dest,
+    }
+    }
     )
 
 
 @router.get("/languages/")
 def languages():
-    return JSONResponse(content={"response": lang_dict})
+    return PrettyJSONResponse(content={"response": lang_dict})
 
 
 @router.post("/detect/")
@@ -76,7 +79,7 @@ async def detect(request: Request):
             "confidence": lang_confidence
         }
     }
-    return JSONResponse(content=response)
+    return PrettyJSONResponse(content=response)
 
 
 @router.post("/pronounce/")
@@ -105,4 +108,8 @@ async def pronounce(request: Request):
             "language": lang_dict.get(lang)
         }
     }
-    return JSONResponse(content=response)
+    return PrettyJSONResponse(content=response)
+
+
+def setup(app):
+    app.include_router(router, prefix=prefix)
