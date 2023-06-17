@@ -1,14 +1,20 @@
 import os
 import platform
 import socket
+import time
 
-# from flask import Blueprint, jsonify, redirect, url_for
-from fastapi import APIRouter, Response
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi import APIRouter
+from fastapi.responses import RedirectResponse
 import psutil
+
+from api.service import time_assets
+from api.service.pretty_response import PrettyJSONResponse
 
 router = APIRouter()
 prefix = "/host"
+
+start_time = time.time()
+# we use this for uptime
 
 
 @router.get("/")
@@ -26,4 +32,22 @@ async def hostinfo():
         "cpu_usage": psutil.cpu_percent(),
         "memory_usage": psutil.virtual_memory().percent,
     }
-    return JSONResponse(content=response)
+    return PrettyJSONResponse(content=response)
+
+
+@router.get("/uptime/")
+async def uptime():
+    now_time = time.time()
+    seconds = now_time - start_time
+    pretty_uptime = time_assets.pretty_time_from_seconds(int(seconds))
+    response = {
+        "response": {
+            "seconds": seconds,
+            "text": pretty_uptime
+        }
+    }
+    return PrettyJSONResponse(response)
+
+
+def setup(app):
+    app.include_router(router, prefix=prefix)
