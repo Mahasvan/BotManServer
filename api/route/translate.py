@@ -40,12 +40,11 @@ async def translate_text(request: Request):
 
     response = await translator.translate(text, src=src, dest=dest)
     return PrettyJSONResponse(content={"response": {
-        "text": response.text,
-        "src": response.src,
-        "dest": response.dest,
-    }
-    }
-    )
+            "text": response.text,
+            "src": response.src,
+            "dest": response.dest,
+        }
+    })
 
 
 @router.get("/languages/")
@@ -61,16 +60,15 @@ async def detect(request: Request):
         raise HTTPException(status_code=400, detail="No text provided")
 
     result = await translator.detect(text)
-    lang_name = result.lang
-    lang_confidence = result.confidence * 100
-    print(lang_confidence)
-    print(lang_name)
 
     if isinstance(result.confidence, list):
         # sometimes the result may contain two or more language detections
         # no idea why, but we'll just take the first one
-        lang_confidence = result.confidence[0]
+        lang_confidence = result.confidence[0] * 100
         lang_name = result.lang[0]
+    else:
+        lang_name = result.lang
+        lang_confidence = result.confidence * 100
 
     response = {
         "response": {
