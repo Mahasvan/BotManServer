@@ -57,7 +57,7 @@ async def convert(currency_from: str, currency_to: str, amount: float):
         try:
             from_currency, to_currency = [x.upper() for x in list(result.keys())[0].split("_")]
         except ValueError:
-            # todo: find out why this happens
+            # api is down
             response = {
                 "response": {
                     "error": "could not retrieve exchange rates"
