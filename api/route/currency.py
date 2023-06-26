@@ -22,11 +22,13 @@ async def update_rates():
     rates = await internet.get_json(f"https://free.currconv.com/api/v7/currencies?apiKey={currency_api_key}")
 
 
-try:
-    loop = asyncio.get_running_loop()
-except RuntimeError:
-    loop = asyncio.new_event_loop()
-loop.create_task(update_rates())
+if currency_api_key != None:
+    try:
+        loop = asyncio.get_running_loop()
+    except RuntimeError:
+        loop = asyncio.new_event_loop()
+    loop.create_task(update_rates())
+
 
 if rates.get("status") == 400:
     print(rates.get("error"))
