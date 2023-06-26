@@ -7,6 +7,8 @@ from fastapi.responses import JSONResponse, RedirectResponse
 from api.service.pretty_response import PrettyJSONResponse
 app = FastAPI()
 
+with open("config.json") as f:
+    config = json.load(f)
 
 @app.get('/')
 async def index():
@@ -35,5 +37,7 @@ for route in routes:
 
 if __name__ == '__main__':
     import uvicorn
-
-    uvicorn.run(app, host='0.0.0.0', port=8000)
+    if config.get("production") == True:
+        uvicorn.run(app, host='0.0.0.0', port=8000, reload=False)
+    else:
+        uvicorn.run(app, host='0.0.0.0', port=8000, reload=True)
