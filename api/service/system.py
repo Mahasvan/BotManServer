@@ -5,6 +5,7 @@ import re
 
 
 def get_processor_name():
+    # https://stackoverflow.com/questions/4842448/getting-processor-information-in-python
     if platform.system() == "Windows":
         return platform.processor()
     elif platform.system() == "Darwin":
