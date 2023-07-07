@@ -2,7 +2,7 @@ import json
 import importlib.util
 
 from fastapi import FastAPI
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import RedirectResponse
 
 from api.service.pretty_response import PrettyJSONResponse
 app = FastAPI()
@@ -24,7 +24,8 @@ async def ping():
 
 @app.get('/urls/')
 async def urls():
-    return PrettyJSONResponse(content=app.openapi())
+    response = {"response": app.openapi().get("paths")}
+    return PrettyJSONResponse(response)
 
 
 with open("api/route/routes.json") as f:
