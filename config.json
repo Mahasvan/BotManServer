@@ -1,5 +1,7 @@
 {
-  "currency-api-key": "",
   "host": "0.0.0.0",
-  "port": 8000
+  "port": 8000,
+  "currency-api-key": "",
+  "spotify-client-id": "",
+  "spotify-client-secret": ""
 }
