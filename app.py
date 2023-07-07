@@ -1,14 +1,16 @@
-import json
 import importlib.util
+import json
 
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
 from api.service.pretty_response import PrettyJSONResponse
+
 app = FastAPI()
 
 with open("config.json") as f:
     config = json.load(f)
+
 
 @app.get('/')
 async def index():
@@ -38,4 +40,5 @@ for route in routes:
 
 if __name__ == '__main__':
     import uvicorn
+
     uvicorn.run(app, host=config.get("host"), port=config.get("port"))

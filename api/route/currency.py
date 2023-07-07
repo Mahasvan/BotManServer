@@ -2,7 +2,7 @@ import asyncio
 import json
 
 from fastapi import APIRouter
-from fastapi.responses import JSONResponse, RedirectResponse
+from fastapi.responses import RedirectResponse
 
 from api.service import internet
 from api.service.pretty_response import PrettyJSONResponse
@@ -30,7 +30,6 @@ if currency_api_key is not None:
         loop = asyncio.new_event_loop()
         loop.create_task(update_rates())
         loop.close()
-
 
 if rates.get("status") == 400:
     print(rates.get("error"))

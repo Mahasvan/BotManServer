@@ -4,9 +4,9 @@ import socket
 import subprocess
 import time
 
+import psutil
 from fastapi import APIRouter
 from fastapi.responses import RedirectResponse
-import psutil
 
 from api.service import time_assets, system
 from api.service.pretty_response import PrettyJSONResponse
@@ -14,8 +14,7 @@ from api.service.pretty_response import PrettyJSONResponse
 router = APIRouter()
 prefix = "/host"
 
-start_time = time.time()
-# we use this for uptime
+start_time = time.time() # we use this for uptime
 
 
 @router.get("/")

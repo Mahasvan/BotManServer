@@ -1,10 +1,9 @@
-import re
 import json
+import re
 
 import spotipy
-from spotipy.oauth2 import SpotifyClientCredentials
-
 from fastapi import APIRouter
+from spotipy.oauth2 import SpotifyClientCredentials
 
 from api.service.pretty_response import PrettyJSONResponse
 
@@ -117,7 +116,6 @@ async def search_playlist(query: str):
 
 
 def setup(app):
-
     # include the /search router into the /spotify router
     router.include_router(search_router, prefix=search_prefix)
 

@@ -1,7 +1,7 @@
-import platform
-import subprocess
 import os
+import platform
 import re
+import subprocess
 
 
 def get_processor_name():

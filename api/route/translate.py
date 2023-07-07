@@ -1,9 +1,8 @@
-from fastapi import APIRouter, Response, Request, HTTPException
-from fastapi.responses import JSONResponse, RedirectResponse
 import googletrans
+from fastapi import APIRouter, Request, HTTPException
+from fastapi.responses import RedirectResponse
 
 from api.service.pretty_response import PrettyJSONResponse
-
 
 router = APIRouter()
 prefix = "/translate"
@@ -40,10 +39,10 @@ async def translate_text(request: Request):
 
     response = await translator.translate(text, src=src, dest=dest)
     return PrettyJSONResponse(content={"response": {
-            "text": response.text,
-            "src": response.src,
-            "dest": response.dest,
-        }
+        "text": response.text,
+        "src": response.src,
+        "dest": response.dest,
+    }
     })
 
 
