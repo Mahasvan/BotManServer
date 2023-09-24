@@ -1,5 +1,6 @@
 import os
 import platform
+import signal
 import socket
 import subprocess
 import time
@@ -14,7 +15,7 @@ from api.service.pretty_response import PrettyJSONResponse
 router = APIRouter()
 prefix = "/host"
 
-start_time = time.time() # we use this for uptime
+start_time = time.time()  # we use this for uptime
 
 
 @router.get("/")
@@ -60,6 +61,13 @@ async def update():
         "response": output
     }
     return PrettyJSONResponse(response)
+
+
+@router.get("/shutdown/")
+async def shutdown():
+    os.kill(os.getpid(), signal.SIGINT)
+    # todo: make startup script shut down existing server instance before starting up a new one
+    return PrettyJSONResponse(content={"response": "Somehow I did not shut down."})
 
 
 def setup(app):
