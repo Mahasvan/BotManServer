@@ -62,9 +62,7 @@ async def convert(currency_from: str, currency_to: str, amount: float):
         except ValueError:
             # api is down
             response = {
-                "response": {
-                    "error": "could not retrieve exchange rates"
-                }
+                "response": "could not retrieve exchange rates"
             }
             return PrettyJSONResponse(response, 500)
         multiplier = list(result.values())[0]

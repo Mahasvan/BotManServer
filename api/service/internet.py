@@ -17,6 +17,8 @@ async def get_binary(url: str, **kwargs):
 
 async def get_json(url: str, **kwargs):
     async with session.get(url, **kwargs) as response:
+        if (await response.text()).lower() == "internal server error":
+            return {"response": "Internal Server Error"}
         response = (await response.json())
     return response
 
@@ -35,5 +37,7 @@ async def post_binary(url: str, data: dict = None, params: dict = None):
 
 async def post_json(url: str, headers: dict = None, data: dict = None, params: dict = None):
     async with session.post(url, headers=headers, data=data, params=params) as response:
+        if (await response.text()).lower() == "internal server error":
+            return {"response": "Internal Server Error"}
         response = (await response.json())
     return response
