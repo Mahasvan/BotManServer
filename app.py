@@ -2,20 +2,35 @@ import importlib.util
 import json
 import os
 
+import requests
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
+from api.service import error_handler, internet
 from api.service.pretty_response import PrettyJSONResponse
-from api.service import error_handler
-
 
 error_handler.set_exception_handler()
-
-app = FastAPI()
 
 with open("config.json") as f:
     config = json.load(f)
     os.environ['logfile'] = config.get("logfile", "log.db")
+
+
+def close_running_instance():
+    import socket
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    try:
+        s.bind((config.get("host"), config.get("port")))
+    except socket.error:
+        print("Port is already in use. Shutting down running instance...")
+
+        requests.get(f"http://{config.get('host')}:{config.get('port')}/host/shutdown")
+        print("Closed running instance.")
+
+
+close_running_instance()
+
+app = FastAPI()
 
 
 @app.get('/')

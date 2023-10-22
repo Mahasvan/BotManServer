@@ -2,7 +2,7 @@ import inspect
 import os
 import sys
 
-import db
+import api.service.db as db
 
 database = db.Database(os.environ.get("logfile", "log.db"))
 
