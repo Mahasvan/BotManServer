@@ -1,15 +1,21 @@
 import importlib.util
 import json
+import os
 
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
 from api.service.pretty_response import PrettyJSONResponse
+from api.service import error_handler
+
+
+error_handler.set_exception_handler()
 
 app = FastAPI()
 
 with open("config.json") as f:
     config = json.load(f)
+    os.environ['logfile'] = config.get("logfile", "log.db")
 
 
 @app.get('/')

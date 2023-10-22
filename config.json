@@ -3,5 +3,6 @@
   "port": 8000,
   "currency-api-key": "",
   "spotify-client-id": "",
-  "spotify-client-secret": ""
+  "spotify-client-secret": "",
+  "logfile": "log.txt"
 }
