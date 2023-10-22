@@ -241,3 +241,5 @@ fabric.properties
 # Project files
 */config.json
 ./config.json
+
+log.db
