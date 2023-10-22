@@ -1,4 +1,3 @@
-import sqlite3
 import sqlalchemy as db
 from sqlalchemy import Table, create_engine, Column
 from sqlalchemy.orm import Session

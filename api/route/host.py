@@ -7,13 +7,13 @@ import time
 
 try:
     import psutil
+
     psutil.cpu_percent()
     psutil.virtual_memory().percent
 except:
     # todo: implement error logging
     # in some niche systems such as Android+Termux, psutil may not have permissions to view system info
     import api.service.dummy_psutil as psutil
-
 
 from fastapi import APIRouter
 from fastapi.responses import RedirectResponse
