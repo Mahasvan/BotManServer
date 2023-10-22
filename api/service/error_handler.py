@@ -8,7 +8,6 @@ database = db.Database(os.environ.get("logfile", "log.db"))
 
 
 def my_except_hook(exctype, value, traceback):
-    print("Handler code goes here")
     abspath = inspect.getabsfile(traceback)
     database.error(error=value, file_or_context=abspath)
     sys.__excepthook__(exctype, value, traceback)
