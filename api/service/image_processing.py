@@ -1,12 +1,11 @@
 import json
-from typing import Any, Dict
-
-import pytesseract
 import os
 import re
+from typing import Any, Dict
 
-from PIL import Image, ExifTags
 import numpy as np
+import pytesseract
+from PIL import Image, ExifTags
 
 
 def is_serializable(x):
