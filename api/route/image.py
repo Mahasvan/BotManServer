@@ -1,3 +1,4 @@
+import json
 import os
 from typing import Annotated, Tuple
 
@@ -11,7 +12,12 @@ from api.service.rng import generate_otp
 router = APIRouter()
 prefix = "/image"
 
-ocr = ImageProcessor()
+with open("config.json") as f:
+    config = json.load(f)
+    exec_path = config.get("tesseract_exec_path", None)
+    tessdata_path = config.get("tesseract_tessdata_path", None)
+
+ocr = ImageProcessor(exec_path, tessdata_path)
 
 if not os.path.exists("temp"):
     os.mkdir("temp")
@@ -37,13 +43,13 @@ async def metadata(file: Annotated[bytes, File()], extension: str = "png"):
 
 
 @router.post("/ocr")
-async def ocr_image(file: Annotated[bytes, File()], extension: str = "png"):
+async def ocr_image(file: Annotated[bytes, File()], extension: str = "png", language_code: str = "eng"):
     filename = os.path.join("temp", f"{generate_otp()}.{extension}")
     with open(filename, "wb") as f:
         f.write(file)
     img_to_ocr = ocr.read_file("temp.png")
     os.remove(filename)
-    return JSONResponse({"text": ocr.ocr_image(img_to_ocr)})
+    return JSONResponse({"text": ocr.ocr_image(img_to_ocr, language_code)})
 
 
 def setup(app):

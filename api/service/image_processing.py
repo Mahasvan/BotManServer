@@ -26,6 +26,8 @@ class ImageProcessor:
             os.environ["TESSDATA_PREFIX"] = tessdata_path
             pytesseract.pytesseract.tessdata_path = tessdata_path
 
+        self.languages = pytesseract.get_languages()
+
     def read_file(self, file_path) -> Image:
         img_to_ocr = Image.open(file_path)
         return img_to_ocr
@@ -59,6 +61,8 @@ class ImageProcessor:
 
     def ocr_image(self, img_to_ocr: np.array, lang: str = None) -> str:
         if lang is None:
+            lang = "eng"
+        if lang not in self.languages:
             lang = "eng"
 
         return pytesseract.image_to_string(img_to_ocr, lang=lang)
