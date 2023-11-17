@@ -6,7 +6,7 @@ import requests
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
-from api.service import error_handler, internet
+from api.service import error_handler
 from api.service.pretty_response import PrettyJSONResponse
 
 error_handler.set_exception_handler()

@@ -1,13 +1,12 @@
 import json
 import os
-from typing import Annotated, Tuple
+from typing import Annotated
 
 from fastapi import APIRouter, File
 
 from api.service.image_processing import ImageProcessor
 from api.service.pretty_response import JSONResponse
 from api.service.rng import generate_otp
-
 
 router = APIRouter()
 prefix = "/image"
@@ -21,6 +20,7 @@ ocr = ImageProcessor(exec_path, tessdata_path)
 
 if not os.path.exists("temp"):
     os.mkdir("temp")
+
 
 @router.post("/ocr-meta")
 async def ocr_meta(file: Annotated[bytes, File()], extension: str = "png"):
