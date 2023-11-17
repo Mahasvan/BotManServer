@@ -1,8 +1,14 @@
 {
   "host": "0.0.0.0",
   "port": 8000,
+
   "currency-api-key": "",
+
   "spotify-client-id": "",
   "spotify-client-secret": "",
-  "logfile": "log.txt"
+
+  "tesseract_exec_path": "tesseract",
+  "tesseract_tessdata_path": "/usr/local/Cellar/tesseract-lang/4.1.0/share/tessdata",
+
+  "logfile": "log.db"
 }
