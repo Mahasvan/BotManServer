@@ -12,7 +12,7 @@
 - Install [Tesseract OCR](https://tesseract-ocr.github.io/tessdoc/#binaries)
   - Instructions are in the **Binaries** section 
 
-### Running the app
+### Running the App
 - ```shell
   python3 app.py
   ```
