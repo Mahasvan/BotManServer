@@ -10,11 +10,12 @@
     ```
 - Fill in `config.json` with appropriate data
 - Install [Tesseract OCR](https://tesseract-ocr.github.io/tessdoc/#binaries)
-  - Instructions are in the **Binaries** section
-- Run the app
-  - ```shell
-    python3 app.py
-    ```
+  - Instructions are in the **Binaries** section 
+
+### Running the app
+- ```shell
+  python3 app.py
+  ```
 
 ### Config Structure
 ```json
