@@ -10,14 +10,29 @@
       pip3 install -r requirements.txt
       ```
 - Fill in `config.json` with appropriate data
-- Install [Tesseract OCR](https://tesseract-ocr.github.io/tessdoc/#binaries)
-    - Instructions are in the **Binaries** section
 
 ### Running the App
 
+#### Running Locally
+- Make sure the config entries are filled correctly.
+- Make sure Docker Desktop is installed and running
+- Install [Tesseract OCR](https://tesseract-ocr.github.io/tessdoc/#binaries)
+    - Instructions are in the **Binaries** section
 - ```shell
   python3 app.py
   ```
+
+#### Running with Docker
+- Make sure the config entries are filled correctly.
+- Build the Docker image
+    - ```shell
+      docker build -t botman-server .
+      ```
+- Run the Docker container
+- ```shell
+  docker run -p 8000:{PORT} botman-server // PORT is the port specified in the config file
+  ```
+
 
 ### Config Structure
 
