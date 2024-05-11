@@ -16,10 +16,10 @@ COPY . /BotManServer
 WORKDIR /BotManServer
 RUN python3 -m venv ./venv
 RUN ./venv/bin/python3 -m ensurepip
-RUN ./venv/bin/pip install -r requirements.txt
+RUN . venv/bin/activate && pip install -r requirements.txt
 # install requirements
 
 # Run
 CMD echo "Running BotManServer"
 EXPOSE 8000
-CMD ["./venv/bin/python3", "app.py"]
+CMD . venv/bin/activate && exec python app.py
