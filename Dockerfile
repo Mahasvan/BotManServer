@@ -4,13 +4,9 @@ FROM ubuntu:latest
 
 # install tesseract
 RUN apt-get update
-RUN apt-get install -y tesseract-ocr
 
 # install python
-RUN apt-get install -y python3
-RUN apt-get install -y python3-pip
-RUN apt-get install -y python3-venv
-RUN apt-get install -y git
+RUN apt-get install -y python3 python3-pip python3-venv git curl tesseract-ocr
 
 COPY . /BotManServer
 WORKDIR /BotManServer
