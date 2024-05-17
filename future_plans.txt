@@ -1,0 +1,2 @@
+- tmpfs for temp storage
+- docker volumes for persistent storage - logs
