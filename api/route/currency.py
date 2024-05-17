@@ -1,5 +1,6 @@
 import asyncio
 import json
+import os
 
 from fastapi import APIRouter
 from fastapi.responses import RedirectResponse
@@ -14,6 +15,7 @@ with open("config.json") as f:
     config = json.load(f)
 
 currency_api_key = config.get("currency-api-key")
+currency_api_key = os.environ.get("CURRENCY_API_KEY", currency_api_key)
 rates = {}
 
 

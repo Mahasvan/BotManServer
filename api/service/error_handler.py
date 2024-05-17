@@ -4,7 +4,7 @@ import sys
 
 import api.service.db as db
 
-database = db.Database(os.environ.get("logfile", "log.db"))
+database = db.Database(os.environ.get("LOGFILE_PATH", "log.db"))
 
 
 def my_except_hook(exctype, value, traceback):

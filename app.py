@@ -13,7 +13,7 @@ error_handler.set_exception_handler()
 
 with open("config.json") as f:
     config = json.load(f)
-    os.environ['logfile'] = config.get("logfile", "log.db")
+    os.environ['LOGFILE_PATH'] = config.get("logfile", "log.db")
 
 
 def close_running_instance():

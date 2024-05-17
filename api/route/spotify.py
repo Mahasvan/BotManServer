@@ -1,4 +1,5 @@
 import json
+import os
 import re
 
 import spotipy
@@ -17,7 +18,9 @@ with open("config.json") as f:
     config = json.load(f)
 
 client_id = config.get("spotify-client-id")
+client_id = os.environ.get("SPOTIFY_CLIENT_ID", client_id)
 client_secret = config.get("spotify-client-secret")
+client_secret = os.environ.get("SPOTIFY_CLIENT_SECRET", client_secret)
 
 try:
     spotify = spotipy.Spotify(auth_manager=SpotifyClientCredentials(client_id=client_id,
