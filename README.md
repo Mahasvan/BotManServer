@@ -30,7 +30,7 @@
       ```
 - Run the Docker container
 - ```shell
-  docker run -p 8000:{PORT} botman-server // PORT is the port specified in the config file
+  docker run -p 8000:{PORT} botman-server # PORT is the port specified in the config file
   ```
 
 
