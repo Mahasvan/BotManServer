@@ -1,1 +1,2 @@
 - redirect while keeping root path in mind
+- fix currency conversion
