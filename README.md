@@ -71,3 +71,7 @@
 - So to fix this, we need to set the prefix manually.
 - Set the `FASTAPI_ROOT_PATH` environment variable to your path prefix 
 - Check [this page](https://fastapi.tiangolo.com/advanced/behind-a-proxy/) for more information.
+
+### Using as a distributed system (Kubernetes) (Work In Progress)
+- https://stackoverflow.com/a/72928176
+- 
