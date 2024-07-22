@@ -34,7 +34,11 @@ def close_running_instance():
 
 close_running_instance()
 
-app = FastAPI()
+root_path = os.environ.get("FASTAPI_ROOT_PATH", None)
+if root_path:
+    app = FastAPI(root_path=root_path)
+else:
+    app = FastAPI()
 
 
 @app.get('/')

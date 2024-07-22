@@ -17,5 +17,6 @@ RUN . venv/bin/activate && pip install -r requirements.txt
 
 # Run
 ENV LOGFILE_PATH="/BotManServer/log.db"
+ENV FASTAPI_ROOT_PATH="/api"
 EXPOSE 8000
 CMD . venv/bin/activate && exec python app.py

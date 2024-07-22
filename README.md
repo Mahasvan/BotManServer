@@ -2,7 +2,7 @@
 
 ## Server component for [BotManClient](https://github.com/Mahas1/BotManClient)
 
-### Installation
+## Installation
 
 - Clone the repository
 - Install requirements
@@ -11,9 +11,9 @@
       ```
 - Fill in `config.json` with appropriate data
 
-### Running the App
+## Running the App
 
-#### Running Locally
+### Running Locally
 - Make sure the config entries are filled correctly.
 - Make sure Docker Desktop is installed and running
 - Install [Tesseract OCR](https://tesseract-ocr.github.io/tessdoc/#binaries)
@@ -22,7 +22,7 @@
   python3 app.py
   ```
 
-#### Running with Docker
+### Running with Docker
 - Make sure the config entries are filled correctly.
 - Build the Docker image
     - ```shell
@@ -34,7 +34,7 @@
   ```
 
 
-### Config Structure
+## Config Structure
 
 ```json
 {
@@ -49,7 +49,7 @@
 }
 ```
 
-### Config entries
+## Config entries
 
 - `currency-api-key`
     - Free API Key from [CurrencyConverterAPI](https://www.currencyconverterapi.com).
@@ -63,3 +63,11 @@
       accordingly.
 - `tesseract_tessdata_path`
     - Path to the `tessdata` folder. This is for additional languages support. Not mandatory.
+
+## Additional Documentation
+### Running behind a proxy (Nginx)
+- Sometimes, you may need to run the app behind a proxy, like I had to with Kubernetes and the Nginx Ingress Controller.
+- if the app is served with an additional path prefix, say `/api/v1`, FastAPI freaks out.
+- So to fix this, we need to set the prefix manually.
+- Set the `FASTAPI_ROOT_PATH` environment variable to your path prefix 
+- Check [this page](https://fastapi.tiangolo.com/advanced/behind-a-proxy/) for more information.
