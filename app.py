@@ -36,6 +36,7 @@ close_running_instance()
 
 root_path = os.environ.get("FASTAPI_ROOT_PATH", None)
 if root_path:
+    print(f"Using root path: {root_path}")
     app = FastAPI(root_path=root_path)
 else:
     app = FastAPI()
