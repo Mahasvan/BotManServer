@@ -72,6 +72,17 @@
 - Set the `FASTAPI_ROOT_PATH` environment variable to your path prefix 
 - Check [this page](https://fastapi.tiangolo.com/advanced/behind-a-proxy/) for more information.
 
-### Using as a distributed system (Kubernetes) (Work In Progress)
-- https://stackoverflow.com/a/72928176
-- 
+### Kubernetes Instructions
+- Build the container using
+  - ```shell
+    sudo docker build -t mahasvan/botmanserver:latest .
+    ```
+- Install the Nginx Ingress Controller - [Install Guide](https://docs.nginx.com/nginx-ingress-controller/installation/installing-nic/installation-with-helm/)
+- Add the BotMan Server Docker image to the cluster registry
+  - If using K3S, refer to [this answer](https://stackoverflow.com/a/72928176) on StackOverflow
+- Go through the YAML files in the `k8s` directory, and change the details needed.
+- Apply the Kubernetes manifests
+  - ```shell
+    kubectl apply -f k8s/
+    ```
+- You should now have the deployment in effect.
