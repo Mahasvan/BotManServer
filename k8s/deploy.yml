@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: botman-server
+  labels:
+    app: botman-server
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: botman-server
+  template:
+    metadata:
+      labels:
+        app: botman-server
+    spec:
+      containers:
+      - name: botman
+        image: mahasvan/botmanserver:latest
+        ports:
+        - containerPort: 8000
+        imagePullPolicy: IfNotPresent

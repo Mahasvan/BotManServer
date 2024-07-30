@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: botmanservice
+spec:
+  type: ClusterIP
+  selector:
+    app: botman-server
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8000
+      protocol: TCP
+  # externalTrafficPolicy: Local
