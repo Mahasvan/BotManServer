@@ -6,7 +6,7 @@ import requests
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
-from api.service import error_handler
+from api.service import error_handler, fastapi
 from api.service.pretty_response import PrettyJSONResponse
 
 error_handler.set_exception_handler()
@@ -37,7 +37,7 @@ close_running_instance()
 root_path = os.environ.get("FASTAPI_ROOT_PATH", None)
 if root_path:
     print(f"Using root path: {root_path}")
-    app = FastAPI(root_path=root_path)
+    app = fastapi.App(root_path=root_path)
 else:
     app = FastAPI()
 
