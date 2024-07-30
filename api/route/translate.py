@@ -1,10 +1,11 @@
 import googletrans
 from fastapi import APIRouter, Request, HTTPException
-from fastapi.responses import RedirectResponse
+from api.service.routing import RedirectResponse
 
 from api.service.pretty_response import PrettyJSONResponse
 
 router = APIRouter()
+router.root_path = None # populated during import
 prefix = "/translate"
 
 translator = googletrans.Translator()
@@ -15,7 +16,7 @@ lang_list = list(googletrans.LANGUAGES.keys())
 
 @router.post("/")
 def index():
-    response = RedirectResponse(url=prefix)
+    response = RedirectResponse(url=prefix, root_path=router.root_path)
     return response
 
 
@@ -110,3 +111,4 @@ async def pronounce(request: Request):
 
 def setup(app):
     app.include_router(router, prefix=prefix)
+    router.root_path = app.root_path

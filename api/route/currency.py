@@ -3,12 +3,13 @@ import json
 import os
 
 from fastapi import APIRouter
-from fastapi.responses import RedirectResponse
 
 from api.service import internet
 from api.service.pretty_response import PrettyJSONResponse
-
+from api.service.routing import RedirectResponse
 router = APIRouter()
+router.root_path = None # populated during setup
+
 prefix = "/currency"
 
 with open("config.json") as f:
@@ -41,7 +42,7 @@ if rates.get("status") == 400:
 
 @router.get("/")
 async def index():
-    return RedirectResponse(f"{prefix}/rates")
+    return RedirectResponse(f"{prefix}/rates", root_path=router.root_path)
 
 
 @router.get("/rates/")
@@ -80,3 +81,4 @@ async def convert(currency_from: str, currency_to: str, amount: float):
 
 def setup(app):
     app.include_router(router, prefix=prefix)
+    router.root_path = app.root_path

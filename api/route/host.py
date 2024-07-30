@@ -16,12 +16,14 @@ except:
     import api.service.dummy_psutil as psutil
 
 from fastapi import APIRouter
-from fastapi.responses import RedirectResponse
 
+from api.service.routing import RedirectResponse
 from api.service import time_assets, system
 from api.service.pretty_response import PrettyJSONResponse
 
 router = APIRouter()
+router.root_path = None  # populated during setup
+
 prefix = "/host"
 
 start_time = time.time()  # we use this for uptime
@@ -29,7 +31,7 @@ start_time = time.time()  # we use this for uptime
 
 @router.get("/")
 async def index():
-    response = RedirectResponse(url=f"{prefix}/info")
+    response = RedirectResponse(url=f"{prefix}/info", root_path=router.root_path)
     return response
 
 
@@ -81,3 +83,4 @@ async def shutdown():
 
 def setup(app):
     app.include_router(router, prefix=prefix)
+    router.root_path = app.root_path
