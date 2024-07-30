@@ -12,11 +12,11 @@ COPY . /BotManServer
 WORKDIR /BotManServer
 RUN python3 -m venv ./venv
 RUN ./venv/bin/python3 -m ensurepip
-RUN . venv/bin/activate && pip install -r requirements.txt
+RUN . venv/bin/pip install -r requirements.txt
 # install requirements
 
 # Run
 ENV LOGFILE_PATH="/BotManServer/log.db"
 ENV FASTAPI_ROOT_PATH="/api"
 EXPOSE 8000
-CMD . venv/bin/activate && exec python app.py
+CMD . venv/bin/python app.py
