@@ -1,6 +1,6 @@
 # BotManServer
 
-## Server component for [BotManClient](https://github.com/Mahas1/BotManClient)
+## Server component for [BotMan](https://github.com/Mahasvan/botman)
 
 ## Installation
 
