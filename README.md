@@ -64,7 +64,7 @@
 - `tesseract_tessdata_path`
     - Path to the `tessdata` folder. This is for additional languages support. Not mandatory.
 
-## Additional Documentation
+## Proxy and Kubernetes
 ### Running behind a proxy (Nginx)
 - Sometimes, you may need to run the app behind a proxy, like I had to with Kubernetes and the Nginx Ingress Controller.
 - if the app is served with an additional path prefix, say `/api/v1`, FastAPI freaks out.
